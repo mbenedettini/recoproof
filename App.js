@@ -40,7 +40,17 @@ export default class App extends React.Component {
     ToastAndroid.show(error, ToastAndroid.SHORT);
   }
   onRecognized = ({name, confidence}) => {
-    ToastAndroid.show("Recognized: " + name + " and Confidence " + confidence, ToastAndroid.LONG)
+    ToastAndroid.show("Recognized: " + name + " and Confidence " + confidence, ToastAndroid.LONG);
+    fetch('https://3f37caf7.ngrok.io/api/entries', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name
+      })
+    });
   }
   onUnrecognized = ({error}) => {
     ToastAndroid.show(error, ToastAndroid.SHORT)
@@ -68,19 +78,19 @@ export default class App extends React.Component {
             onPress={this.takePicture.bind(this)}
             style = {styles.capture}
         >
-            <Text style={{fontSize: 14}}> SNAP </Text>
+            <Text style={{fontSize: 14}}>Nueva cara</Text>
         </TouchableOpacity>
         <TouchableOpacity
             onPress={() => this.camera.identify()}
             style = {styles.capture}
         >
-            <Text style={{fontSize: 14}}> Recognize </Text>
+            <Text style={{fontSize: 14}}>Reconocer</Text>
         </TouchableOpacity>
         <TouchableOpacity
             onPress={this.clear.bind(this)}
             style = {styles.capture}
         >
-            <Text style={{fontSize: 14}}> Clear </Text>
+            <Text style={{fontSize: 14}}>Limpiar</Text>
         </TouchableOpacity>
         </View>
       </View>
